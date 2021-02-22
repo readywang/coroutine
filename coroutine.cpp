@@ -1,3 +1,4 @@
+
 #include"coroutine.h"
 
 int coroutine_create(schedule_t &schedule,Func func,void *arg)
@@ -44,7 +45,6 @@ int coroutine_resume(schedule_t &schedule,int id)
     {
         case RUNABLE:
         {
-            c.state=RUNING;
             getcontext(&(c.ctxt));
             c.ctxt.uc_link=&(schedule.main);
             c.ctxt.uc_stack.ss_flags=0;
@@ -52,10 +52,13 @@ int coroutine_resume(schedule_t &schedule,int id)
             c.ctxt.uc_stack.ss_size=DEAFAULT_STACK_SIZE;
             schedule.runId=id;
             makecontext(&(c.ctxt),(void(*)())coroutine_start,1,&schedule);
+            /* 不用break跳出 */
         }
         case SUSPEND:
         {
+            c.state=RUNING;
             swapcontext(&(schedule.main),&(c.ctxt));
+            break;
         }
         default:
         {
