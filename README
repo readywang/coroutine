@@ -1,1 +1,5 @@
-使用ucontext组件c++语言实现的一个协程库
+参考大神代码。实现的两套协程库。
+coroutine.h coroutine.cpp main.cpp 是采用独立栈实现的协程库。
+coroutine1.h coroutine1.cpp main1.cpp 是采用共享栈实现的协程库。
+
+
